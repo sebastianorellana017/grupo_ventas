@@ -1,0 +1,43 @@
+<nav class="site-navigation text-right text-md-center" role="navigation">
+    <div class="container">
+        <ul class="site-menu js-clone-nav d-none d-md-block" style="padding: 0;">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'cart:product-list' %}">Shop</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            
+            {% if request.user.is_staff %}
+            <li><a href="{% url 'home' %}">API REST</a></li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+
+            <li class="nav-item dropdown">
+                <a  class="nav-link dropdown-toggle active" data-toggle="dropdown" data-target="desplegable" href="#">
+                    APIS
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'api_productos' %}">API Productos</a>
+                    <a class="dropdown-item" href="{% url 'api_payment' %}">API Pagos</a>
+                    <a class="dropdown-item" href="{% url 'api_order' %}">API Orden</a>
+                </div>
+                
+            </li>
+
+        
+            <li class="nav-item dropdown">
+                <a  class="nav-link dropdown-toggle active" data-toggle="dropdown" data-target="desplegable" href="{% url 'profile' %}">
+                    User: {{user.username}}
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar sesion</a>
+                </div>
+            </li>
+            {% else %}
+            
+            <li><a href="{% url 'api_create_user' %}">API User</a></li>
+            <li><a href="{% url 'profile' %}">Iniciar Sesion</a></li>
+            
+            {% endif %}
+        </ul>
+    </div>
+</nav>
