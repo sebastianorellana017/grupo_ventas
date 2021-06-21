@@ -1,36 +1,73 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import ColourVariation, Order, Product, OrderItem, Payment
+from .models import ColourVariation, SizeVariation, Order, Product, OrderItem, Payment, Category, Address
 
-class ColourVariationSerializer(serializers.ModelSerializer):
+
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = ColourVariation
+        model = Category
         fields = '__all__'
 
+class ColourVariationSerializer(serializers.ModelSerializer):
+    # name = serializers.CharField(required=False)
+    class Meta:
+        model = ColourVariation
+        fields = ['name']
+        read_only_fields = ['name']
+
+
+class SizeVariationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SizeVariation
+        fields = ['name']
+
 class ProductSerializer(serializers.ModelSerializer):
+    available_colours = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='name'
+    )
+
+    available_sizes = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='name'
+    )
+
+    category = serializers.SlugRelatedField(slug_field="name", queryset=Category.objects.all())
+
     class Meta:
         model = Product
-        #fields = '__all__'
-        fields = ['id','title', 'image', 'description', 'price', 'created', 'updated', 'active', 'available_colours',
-                  'available_sizes','category', 'stock']
+        fields = ['id', 'title', 'image', 'description', 'price', 'active', 'available_colours',
+                  'available_sizes', 'category', 'stock']
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['order','product','quantity', 'colour', 'size']
+        fields = ['order', 'product', 'quantity', 'colour', 'size']
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
+    # billing_address =
+    user = serializers.SlugRelatedField(slug_field="username", queryset=User.objects.all())
+    billing_address = serializers.SlugRelatedField(slug_field="address_line_1", queryset=Address.objects.all())
+    shipping_address = serializers.SlugRelatedField(slug_field="address_line_2", queryset=Address.objects.all())
+    
     class Meta:
         model = Order
         fields = '__all__'
 
 class PaymentSerializer(serializers.ModelSerializer):
+    #user = serializers.SlugRelatedField(slug_field="username", queryset=User.objects.all())
+
     class Meta:
         model = Payment
         fields = '__all__'
 
-
-
-from django.contrib.auth.models import User
 
 class UserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()

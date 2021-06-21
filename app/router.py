@@ -7,4 +7,7 @@ router.register('ColorVariation',ColourVariationViewSet)
 router.register('ordenitem',OrderItemViewSet)
 router.register('payment', PaymentViewSet)
 router.register('order', OrderViewSet)
+router.register('category', CategoryViewSet)
+router.register('SizeVariation', SizeVariationViewSet)
+router.register('Address', AddressViewSet)
 

@@ -4,8 +4,8 @@ from .import serializers
 
 from django.conf import settings
 
-from .serializers import ColourVariationSerializer, OrderItemSerializer, ProductSerializer, PaymentSerializer, OrderSerializer
-from .models import ColourVariation, Product, OrderItem, Address, Order, Category, Payment
+from .serializers import AddressSerializer, CategorySerializer, ColourVariationSerializer, OrderItemSerializer, ProductSerializer, PaymentSerializer, OrderSerializer, SizeVariationSerializer
+from .models import ColourVariation, Product, OrderItem, Address, Order, Category, Payment, SizeVariation
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -27,5 +27,18 @@ class PaymentViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class SizeVariationViewSet(viewsets.ModelViewSet):
+    queryset = SizeVariation.objects.all()
+    serializer_class = SizeVariationSerializer
+
+class AddressViewSet(viewsets.ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
 
 

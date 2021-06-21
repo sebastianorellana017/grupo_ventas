@@ -31,13 +31,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'cart',
     'rest_framework',
-    
     'django.contrib.sites',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
 ]
 
 DEFAULT_FROM_EMAIL = 'copox@copox.com'

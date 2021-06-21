@@ -47,13 +47,11 @@ class ColourVariation(models.Model):
     def defaultM2M():
         return [ColourVariation.objects.first().pk]
 
-
 class SizeVariation(models.Model):
-    name = models.CharField(max_length=50, default='XL')
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
-
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -69,7 +67,7 @@ class Product(models.Model):
     available_sizes = models.ManyToManyField(SizeVariation)
     category = models.ForeignKey(Category, related_name='primary_products', on_delete=models.CASCADE)
     stock = models.IntegerField(default=0)
-   
+
     def __str__(self):
         return self.title
 
@@ -79,6 +77,7 @@ class Product(models.Model):
     def get_price(self):
         return "{:.2f}".format(self.price / 100)
 
+    
     @property
     def in_stock(self):
         return self.stock > 0
